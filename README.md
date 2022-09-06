@@ -91,19 +91,43 @@ docker run -p 8000:8000 monpseudodocker/monapp # pour dockerhub
 docker run -p 8000:8000 ttl.sh/unidentifiantunique:24h # pour ttl.sh
 ```
 
-7. Déploiement de l'application  
+7. Déploiement de l'application
 
 Maintenant que le livrable de notre application est disponible publiquement, on peut la déployer sur n'importe quel environnement Docker (ou tout autre moteur de conteneurisation).  
 Le standard du déploiement qui s'est imposé ces dernières années est `Kubernetes` qui est un orchestrateur de conteneurs. C'est la version macro de Docker. Il orchestre les conteneurs à l'échelle d'un cluster de machines (plusieurs machines avec Docker - ou tout autre moteur de conteneurisation - regroupées au sein d'un même groupe).  
-Cela permet un bien meilleur passage à l'échelle, une facilité de gestion courante et un tas d'autres avantages tout en gardant le principe de la conteneurisation.  
+Cela permet un bien meilleur passage à l'échelle, une facilité de gestion courante et un tas d'autres avantages tout en gardant le principe de la conteneurisation.
 
-L'installation d'un cluster Kubernetes va bien au dela de ce tutoriel mais, bonne nouvelle, un cluster vous est mis à disposition au travers du datalab SSPCloud.  
+L'installation d'un cluster Kubernetes va bien au dela de ce tutoriel mais, bonne nouvelle, un cluster vous est mis à disposition au travers du datalab SSPCloud.
 
-Rendez vous sur le SSPCloud pour déployer un service `VSCode` en choisissant `admin` dans l'onglet `Kubernetes`. [Lien direct](https://datalab.sspcloud.fr/launcher/inseefrlab-helm-charts-datascience/vscode?autoLaunch=false&kubernetes.role=%C2%ABadmin%C2%BB). Ce choix `admin` donne à votre service `VSCode` les permissions nécessaires au déploiement d'une application dans le cluster.  
+Rendez vous sur le SSPCloud pour déployer un service `VSCode` en choisissant `admin` dans l'onglet `Kubernetes`. [Lien direct](https://datalab.sspcloud.fr/launcher/inseefrlab-helm-charts-datascience/vscode?autoLaunch=false&kubernetes.role=%C2%ABadmin%C2%BB). Ce choix `admin` donne à votre service `VSCode` les permissions nécessaires au déploiement d'une application dans le cluster.
 
 Une fois le `VSCode` lancé, ouvrez le et ouvrez y un terminal.  
-Dans ce terminal, vous pouvez récupérer le code de votre dépôt (nous utiliserons ici le dépôt de ce tutoriel) :  
+Dans ce terminal, vous pouvez récupérer le code de votre dépôt (nous utiliserons ici le dépôt de ce tutoriel) :
+
 ```
 git clone https://github.com/olevitt/demo-deploiement.git
-```  
+```
 
+Dans le dossier [kubernetes](kubernetes), il y a les contrats nécessaires au déploiement de l'application sur un cluster Kubernetes.  
+L'explication détaillée de ces contrats dépasse le cadre de ce tutoriel mais ils correspondent au déploiement (`deployment.yaml`) de notre application, son exposition à l'intérieur du cluster (`service.yaml`) et son exposition à l'extérieur du cluster sur internet (`ingress.yaml`).  
+Vous pouvez modifier dans [deployment.yaml](kubernetes/deployment.yaml) le nom de l'image à utiliser (par défaut : `estragonthecat/demo-deploiement`, l'image de ce repo) et dans `ingress.yaml` le nom de domaine sur lequel exposer l'application (`demo-deploiement.kub.sspcloud.fr`)
+Une fois ces modifications faites, vous pouvez appliquer les contrats :
+
+```
+kubectl apply -f kubernetes
+```
+
+Quelques secondes plus tard, vous devriez avoir votre application disponible sur internet sur le nom de domaine que vous avez choisi !  
+Si le processus prend plus que quelques dizaines de secondes, vous pouvez suivre son avancement via la commande
+
+```
+kubectl get pods
+```
+
+Le débug Kubernetes en cas de problème ferait l'objet d'un autre tutoriel :)
+
+Pour désinstaller l'application :
+
+```
+kubectl delete -f kubernetes
+```
