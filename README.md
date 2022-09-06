@@ -25,11 +25,7 @@ uvicorn main:app --reload # le --reload convient pour une utilisation en dévelo
 
 L'application se lance et écoute bien sur le port `8000`. On peut donc ouvrir un navigateur et accéder à l'application sur `http://localhost:8000`
 
-3. Tests
-
-Bien qu'ils ne soient pas strictement nécessaires au déploiement, les tests jouent un rôle crucial dans l'automatisation et la fiabilisation du processus de déploiement.
-
-4. Packaging
+3. Packaging
 
 Le packaging consiste à produire un livrable autonome à partir du code source. Ce livrable doit permettre d'exécuter l'application sans avoir besoin de la recompiler, de s'intéresser au code source et avec le moins de prérequis possibles.  
 En fonction du langage, le format du package peut changer et les étapes pour packager peuvent différer (résolution des dépendances, compilation, zippage, ajout de métadonnées, signature ...).  
@@ -38,7 +34,7 @@ Python étant un langage interprété (et non compilé), l'étape de packaging n
 Même s'il peut paraitre léger, le prérequis d'avoir python préinstallé sur le serveur qui va déployer l'application se révèle souvent être un frein majeur à la portabilité et à la maintenabilité de l'application. En effet, on se retrouve obligé de préparer l'environnement cible spécifiquement pour notre application. Par exemple, les montées de version de python ne sont alors pas uniquement de la responsabilité des développeurs de l'application mais nécessitent une coordination avec chaque environnement de déploiement.  
 Pour cette raison (et bien d'autres qui dépassent le cadre de ce tutoriel), un nouveau type de livrable "universel" s'est imposé ces dernières années : l'image `docker`.
 
-5. Packaging docker
+4. Packaging docker
 
 Comme on a vu précédemment, on souhaite réaliser et publier une image `docker` de notre application afin d'avoir un livrable autonome, ne nécessitant aucun prérequis (autre que docker - ou tout autre moteur de conteneurisation - lui même) sur les environnements de déploiement. Cette image contiendra à la fois le code de notre application mais aussi la version spécifique de python qui convient.
 
@@ -59,9 +55,9 @@ docker run -p 8000:8000 monapplication
 
 Votre application est alors accessible sur `http://localhost:8000`
 
-Pas de panique si vous n'avez pas docker ! Nous allons tout faire via l'intégration continue dans un chapitre ultérieur.
+Pas de panique si vous n'avez pas docker ! Nous allons tout faire via l'intégration continue dans le chapitre 7.
 
-6. Publication de l'image Docker sur internet
+5. Publication de l'image Docker sur internet
 
 Notre livrable est maintenant prêt ! On peut maintenant le publier au monde entier (ou en interne dans une organisation si le projet n'est pas public). Pour cela, on va publier (push) notre image sur un registre docker.
 Le plus connu est [Dockerhub](https://hub.docker.com/) mais il en existe d'autres. Pour Dockerhub, il est nécessaire de créer un compte (gratuit) afin de publier des images. Pour du testing ou si la création de compte n'est pas possible, on peut utiliser le registre public [ttl.sh](https://ttl.sh/) qui permet la publication sans inscription mais avec une durée de conservation maximale de 24h.
@@ -91,7 +87,7 @@ docker run -p 8000:8000 monpseudodocker/monapp # pour dockerhub
 docker run -p 8000:8000 ttl.sh/unidentifiantunique:24h # pour ttl.sh
 ```
 
-7. Déploiement de l'application
+6. Déploiement de l'application
 
 Maintenant que le livrable de notre application est disponible publiquement, on peut la déployer sur n'importe quel environnement Docker (ou tout autre moteur de conteneurisation).  
 Le standard du déploiement qui s'est imposé ces dernières années est `Kubernetes` qui est un orchestrateur de conteneurs. C'est la version macro de Docker. Il orchestre les conteneurs à l'échelle d'un cluster de machines (plusieurs machines avec Docker - ou tout autre moteur de conteneurisation - regroupées au sein d'un même groupe).  
@@ -131,3 +127,11 @@ Pour désinstaller l'application :
 ```
 kubectl delete -f kubernetes
 ```
+
+7. Automatisation : intégration continue
+
+Maintenant que nous avons réussi à faire l'ensemble du processus manuellement, on peut s'intéresser à son automatisation.  
+Le standard pour l'automatisation est l'intégration continue (CI) et le déploiement en continu (CD).  
+L'idée de l'intégration continue est d'automatiser des tâches à partir du dépôt git.  
+Les processus d'intégration continue sont appelés `pipelines` et sont définis comme du code, directement dans le dépôt `git`.  
+L'intégration continue nécessite l'usage d'un moteur d'intégration continue. Les deux grands hébergeurs `git` ont chacun leur moteur associé (`github actions` et `gitlab-ci`) mais il existe aussi des moteurs agnostiques (`jenkins`, `circle CI` ...).
