@@ -21,7 +21,7 @@ Ce projet utilisant [fastapi](https://fastapi.tiangolo.com/), il peut être lanc
 
 ```
 pip install -r requirements.txt # installation des dépendances nécessaires
-uvicorn main:app --reload # le --reload convient pour une utilisation en développement, pas utile en production
+uvicorn app.main:app --reload # le --reload convient pour une utilisation en développement, pas utile en production
 ```
 
 L'application se lance et écoute bien sur le port `8000`. On peut donc ouvrir un navigateur et accéder à l'application sur `http://localhost:8000`
