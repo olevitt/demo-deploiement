@@ -20,7 +20,7 @@ Avant de s'intéresser au déploiement de notre application sur un serveur, il c
 Ce projet utilisant [fastapi](https://fastapi.tiangolo.com/), il peut être lancé de la manière suivante :
 
 ```
-pip install requirements.txt # installation des dépendances nécessaires
+pip install -r requirements.txt # installation des dépendances nécessaires
 uvicorn main:app --reload # le --reload convient pour une utilisation en développement, pas utile en production
 ```
 
