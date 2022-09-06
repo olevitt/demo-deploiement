@@ -134,5 +134,14 @@ Maintenant que nous avons réussi à faire l'ensemble du processus manuellement,
 Le standard pour l'automatisation est l'intégration continue (CI) et le déploiement en continu (CD).  
 L'idée de l'intégration continue est d'automatiser des tâches à partir du dépôt git.  
 Les processus d'intégration continue sont appelés `pipelines` et sont définis comme du code, directement dans le dépôt `git`.  
-L'intégration continue nécessite l'usage d'un moteur d'intégration continue. Les deux grands hébergeurs `git` ont chacun leur moteur associé (`github actions` et `gitlab-ci`) mais il existe aussi des moteurs agnostiques (`jenkins`, `circle CI` ...).
+L'intégration continue nécessite l'usage d'un moteur d'intégration continue. Les deux grands hébergeurs `git` ont chacun leur moteur associé (`github actions` et `gitlab-ci`) mais il existe aussi des moteurs agnostiques (`jenkins`, `circle CI` ...).  
+Dans ce tutoriel, nous allons utiliser `github actions`.  
+Un exemple de pipeline est disponible ici : [.github/workflows/ci.yml](.github/workflows/ci.yml)  
+Ce pipeline construit l'image docker et la publie sur Dockerhub à chaque commit sur le dépôt.  
+Vous pouvez suivre les exécutions de vos pipelines en direct sur la page [Actions](https://github.com/olevitt/demo-deploiement/actions) de votre dépôt.
 
+:warning: Le pipeline a besoin de vos droits pour pusher l'image sur Dockerhub. Cela nécessite de créer 2 secrets sur votre dépôt github.
+L'ajout de ces secrets se fait dans la page `Settings, Secrets, New repository secret`. Il vous faut renseigner `DOCKERHUB_USERNAME` avec votre identifiant dockerhub et `DOCKERHUB_TOKEN` avec votre mot de passe (ou un access token) dockerhub.  
+Si vous ne le faites pas, vous aurez l'erreur `Error: Username and password required` dans les logs du pipeline. :warning:
+
+L'automatisation du déploiement / redéploiement sur Kubernetes va au dela de ce tutoriel mais vous pouvez vous renseigner sur des moteurs de CD comme [argoCD](https://argo-cd.readthedocs.io/en/stable/).
