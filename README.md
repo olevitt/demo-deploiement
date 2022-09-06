@@ -9,7 +9,8 @@ Il convient de versionner le code sur un outil de versionning. Actuellement, le 
 A noter : il existe un certain nombre de bonnes pratiques sur le versionning. Essayons de les résumer brièvement :
 
 - Le versionning n'est efficace que pour du texte. Le code source a donc toute sa place sur git mais ce n'est pas le cas des données (hors jeu de test minimal), des photos / vidéos / fichiers binaires (privilégier le stockage `S3` pour ces fichiers) ou d'éventuels documents non texte (pdf, odt, doc ...). Pour la documentation, elle a sa place sur le dépôt à condition d'utiliser un format en texte brut comme le `markdown`.
-- Il ne faut versionner que les fichiers nécessaires à la reproductibilité. Les fichiers produits (exemple : output, fichiers compilés, cache ...) n'ont pas leur place sur le repo git. L'utilisation du fichier `.gitignore` permet de dire à `git` d'ignorer les fichiers qui n'ont pas vocation à être versionnés.
+- Il ne faut versionner que les fichiers nécessaires à la reproductibilité. Les fichiers produits (exemple : output, fichiers compilés, cache ...) n'ont pas leur place sur le repo git. L'utilisation du fichier [.gitignore](.gitignore) permet de dire à `git` d'ignorer les fichiers qui n'ont pas vocation à être versionnés.  
+:bulb: Il existe des sites comme https://www.toptal.com/developers/gitignore qui permettent de générer des fichiers gitignore adaptés à votre environnement de travail (en fonction du langage, du système d'exploitation, de l'IDE utilisé ...)
 
 Le dépôt `git` joue le rôle de **source de vérité** sur l'état du code et de point de départ pour le processus de packaging / déploiement que nous allons voir ici.
 
@@ -39,7 +40,8 @@ Pour cette raison (et bien d'autres qui dépassent le cadre de ce tutoriel), un 
 Comme on a vu précédemment, on souhaite réaliser et publier une image `docker` de notre application afin d'avoir un livrable autonome, ne nécessitant aucun prérequis (autre que docker - ou tout autre moteur de conteneurisation - lui même) sur les environnements de déploiement. Cette image contiendra à la fois le code de notre application mais aussi la version spécifique de python qui convient.
 
 La définition d'une image docker se fait au travers d'un fichier `Dockerfile`.  
-Ce fichier [cf Dockerfile](Dockerfile) contient le listing de tout ce qui est nécessaire pour faire tourner notre application (python, dépendances, code, ligne de commande d'exécution) afin de produire un livrable totalement autonome.
+Ce fichier [cf Dockerfile](Dockerfile) contient le listing de tout ce qui est nécessaire pour faire tourner notre application (python, dépendances, code, ligne de commande d'exécution) afin de produire un livrable totalement autonome.  
+Pour en savoir plus sur la conteneurisation d'une application python : https://fastapi.tiangolo.com/deployment/docker/
 
 Si vous avez Docker installé sur votre machine, vous pouvez construire localement l'image :
 
