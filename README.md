@@ -135,3 +135,4 @@ Le standard pour l'automatisation est l'intégration continue (CI) et le déploi
 L'idée de l'intégration continue est d'automatiser des tâches à partir du dépôt git.  
 Les processus d'intégration continue sont appelés `pipelines` et sont définis comme du code, directement dans le dépôt `git`.  
 L'intégration continue nécessite l'usage d'un moteur d'intégration continue. Les deux grands hébergeurs `git` ont chacun leur moteur associé (`github actions` et `gitlab-ci`) mais il existe aussi des moteurs agnostiques (`jenkins`, `circle CI` ...).
+
