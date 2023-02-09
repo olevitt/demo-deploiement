@@ -6,7 +6,7 @@ metadata:
     name: myingress
 spec:
   rules:
-  - host: demo-deploiement.kub.sspcloud.fr
+  - host: demo-deploiement2.kub.sspcloud.fr
     http:
       paths:
       - pathType: Prefix
